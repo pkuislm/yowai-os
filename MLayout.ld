@@ -23,12 +23,14 @@ SECTIONS
 	} >ram
 
 	.data : {
+		__global_pointer$ = .;
 		. = ALIGN(4096);
 		*(.sdata .sdata.*)
 		*(.data .data.*)
 	} >ram
 
 	.bss :{
+		PROVIDE(_bss_start = .);
 		*(.sbss .sbss.*)
 		*(.bss .bss.*)
 		*(COMMON)

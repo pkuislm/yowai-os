@@ -5,7 +5,8 @@
 extern void uart_init(void);
 
 //extern void mem_init();
-void page_test(){
+void page_test()
+{
 	void* p = get_free_page();
 	printf("GetMalloc: %p\n", p);
 	free_page(p);
@@ -18,12 +19,19 @@ void page_test(){
 
 void start_kernel(void)
 {
+	//Init Uart_Communication
 	uart_init();
+	//Init memory and open paging
 	mem_init();
+	//Setup traps?
 	printf("Hello World!\n");
-	
-	while (1) {
-        // Stop
+
+	page_test();
+
+	while (1) 
+	{
+		__asm("wfi");
+        // Hanging here
     };
 }
 

@@ -12,6 +12,7 @@ OBJDUMP = ${CROSS_COMPILE}objdump
 SRCS_ASM = \
 	boot/sbl1.S \
 	mm/mem.S\
+	trap/trap.S\
 	
 
 SRCS_C = \
