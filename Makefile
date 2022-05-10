@@ -62,5 +62,6 @@ clean:
 	(cd boot;rm -rf *.o)
 	(cd init;rm -rf *.o)
 	(cd lib;rm -rf *.o)
+	(cd trap;rm -rf *.o)
 	rm -rf *.bin *.elf
 
