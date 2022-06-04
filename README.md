@@ -14,9 +14,15 @@
 
 # 2. 代码说明
 
-大体上，我以linux的内核做蓝本进行开发。(不过说实在的，因为开发进度实在太少，所以基本上也看不出来 :(。)
+大体上，我以linux的内核做蓝本进行开发。(不过说实在的，因为开发进度实在太少，所以基本上也看不出来 :( 。)
+
 因为linux是基于x86架构，内部的汇编还是在用AT&T的那种很难看懂的（个人喜欢Intel式），所以就算是1等1的抄也需要改很多东西啊。（话说这不就变成移植了吗
-由于并未使用过Rust进行开发，以及本着从0开始的原则（ ，我们的操作系统会从上电之后开始执行他的 [第一行](https://github.com/pkuislm/yowai-os/blob/main/boot/sbl1.S#L12) 代码。在`boot/sbl1.S`中，还会同时进行全局指针、内核栈顶的设置、停靠多余的hart（稍后会初始化这些核）。随后会进入C语言环境，也就是位于`init/kernel.c`的 [start_kernel](https://github.com/pkuislm/yowai-os/blob/main/init/kernel.c#L20) 。在这里，会对uart进行初始化，使能printf。随后还会对内存进行 [初始化](https://github.com/pkuislm/yowai-os/blob/main/mm/memory.c#L57)，并提供了以页（4kb）进行管理的 [kmalloc](https://github.com/pkuislm/yowai-os/blob/main/mm/memory.c#L40) 和 [kfree](https://github.com/pkuislm/yowai-os/blob/main/mm/memory.c#L50)。而目前系统的开发进度就到此处了。
+
+由于并未使用过Rust进行开发，以及本着从0开始的原则（ ，我们的操作系统会从上电之后开始执行他的 [第一行](https://github.com/pkuislm/yowai-os/blob/main/boot/sbl1.S#L12) 代码。
+
+在`boot/sbl1.S`中，还会同时进行全局指针、内核栈顶的设置、停靠多余的hart（稍后会初始化这些核），随后会进入C语言环境，也就是位于`init/kernel.c`的 [start_kernel](https://github.com/pkuislm/yowai-os/blob/main/init/kernel.c#L20) 。在这里，会对uart进行初始化，使能printf。随后还会对内存进行 [初始化](https://github.com/pkuislm/yowai-os/blob/main/mm/memory.c#L57)，并提供了以页（4kb）进行管理的 [kmalloc](https://github.com/pkuislm/yowai-os/blob/main/mm/memory.c#L40) 和 [kfree](https://github.com/pkuislm/yowai-os/blob/main/mm/memory.c#L50)。而目前系统的开发进度就到此处了。
+
+
 接下来若要继续进行开发，首先要完成的是中断部分，以及开启sv39。随后即可进行syscall的编写了。在实现完进程相关系统调用之后（比如`fork`,`exec`,`schedule`这种），应该就可以进入用户环境啦。
 
 # 3. 构建和使用说明
